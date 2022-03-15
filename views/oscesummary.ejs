@@ -1,0 +1,149 @@
+<%- include('partials/header') %> <%- include('partials/navbar') %>
+
+<!-- Hidden stuff -->
+
+<p style="display: none" id="userAnswer"><%= locals.osceAnswer %></p>
+<p style="display: none" id="jsonObject"><%= locals.osce %></p>
+
+<div class="container">
+ 
+
+  <!-- Pagination -->
+  <div>
+    <nav>
+      <ul class="pagination pagination-lg justify-content-center">
+        <li class="page-item"><a class="page-link" href="/osce?pages=1">1-2</a></li>
+        <li class="page-item"><a class="page-link" href="/osce?pages=3">3-4</a></li>
+        <li class="page-item"><a class="page-link" href="/osce?pages=5">5-7</a></li>
+        <li class="page-item"><a class="page-link" href="/osce?pages=8">8-10</a></li>
+        <li class="page-item"><a class="page-link" href="/osce?pages=11">11-12</a></li>
+        <li class="page-item"><a class="page-link" href="/osce?pages=13">13-14</a></li>
+        <li class="page-item"><a class="page-link" href="/osce?pages=15">15-16</a></li>
+        <li class="page-item"><a class="page-link" href="/osce?pages=17">17</a></li>
+    
+        
+    
+      </ul>
+    </nav>
+    <nav>
+      <ul class="pagination pagination-lg justify-content-center">
+        <li class="page-item"><a class="page-link" href="/osce?pages=18">18</a></li>
+        <li class="page-item"><a class="page-link" href="/osce?pages=19">19</a></li>
+        <li class="page-item"><a class="page-link" href="/osce?pages=20">20</a></li>
+        <li class="page-item"><a class="page-link" href="/osce?pages=21">21</a></li>
+        <li class="page-item"><a class="page-link" href="/osce?pages=22">22-24</a></li>
+        <li class="page-item"><a class="page-link" href="/osce?pages=25">25</a></li>
+        <li class="page-item"><a class="page-link" href="/osce?pages=26">26</a></li>
+        <li class="page-item"><a class="page-link" href="/osce?pages=27">27-30</a></li>
+     
+      </ul>
+    </nav>
+  </div>
+
+<hr />
+
+  <br />
+  <h2>Answers</h2>
+
+
+    <table class="table table-success table-striped table-hover" id="table">
+      <thead>
+        <tr></tr>
+      </thead>
+      <tbody>
+        <tr></tr>
+      </tbody>
+    </table>
+
+
+  <h6 style="text-align: center">
+    Click to submit and complete the test
+  </h6>
+  <div style="margin-bottom: 20px" class="text-center">
+    <a onclick="completetest();" class="btn btn-primary" id="completebutton" role="button">Complete Test</a>
+  </div>
+
+</div>
+
+<script>
+  // grab answerlist
+  const jsonObject = $("#jsonObject").text();
+  const osce = JSON.parse(jsonObject);
+  // grab the list data from the hidden element
+  let jsontext = $("#userAnswer").html();
+  // parse the JSON file
+  let answer = JSON.parse(jsontext);
+
+
+  let myTable = document.getElementById("table");
+
+  // create a table
+  let headers = ["Question", "Answer"];
+  let tableHead = document.createElement("thead");
+  let tableBody = document.createElement("tbody");
+  let tableRow = document.createElement("tr");
+
+  // create the table headers
+  for (let i = 0; i < headers.length; i++) {
+    let tableHeaders = document.createElement("th");
+    tableHeaders.innerHTML = headers[i];
+    tableRow.appendChild(tableHeaders);
+  }
+
+  // add the table headers to the table
+  tableHead.appendChild(tableRow);
+  myTable.appendChild(tableHead);
+
+
+  Array(answer).forEach(function (item) {
+    let qnumber = Object.keys(item);
+
+    for (let i = 0; i < qnumber.length; i++) {
+      let number = Object.keys(item[qnumber[i]]);
+
+        let tableRow = document.createElement("tr");
+        let tableData = document.createElement("td");
+        tableData.innerHTML = (i + 1);
+        tableRow.appendChild(tableData);
+        tableData = document.createElement("td");
+        if (item[qnumber[i]] == "")
+        {
+          tableData.innerHTML = "Not answered";
+        } else if (osce[item[qnumber[i]]] != undefined)
+        {
+          tableData.innerHTML = osce[item[qnumber[i]]];
+        } else
+        {
+          tableData.innerHTML = "Answers did not match the answer list";
+        }
+        
+        tableRow.appendChild(tableData);
+        tableBody.appendChild(tableRow);
+
+    }
+  });
+
+  // add the table rows to the table
+  myTable.appendChild(tableBody);
+
+  // post to server to complete test
+  function completetest() {
+    $.ajax({
+    type: 'POST',
+    url: '/oscecomplete',
+    data: '',
+    contentType: 'text/xml',
+    dataType: 'text',
+    success: function (result) {
+      console.log(result)
+    },
+    error: function (result, status) {
+      console.log(result)
+    },
+  })
+    window.location.replace('/userpage')
+  }
+</script>
+
+
+<%- include('partials/footer') %>

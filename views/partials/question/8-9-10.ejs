@@ -1,0 +1,93 @@
+
+  
+      <div class="container">
+        <h3 id="question_number" class="question_no"></h3>
+        <figure id="figure" class="figure">
+          <img src="/image/4.jpg" class="figure-img img-fluid rounded img-thumbnail mx-auto d-block w-50"
+                alt="" onclick="openImageViewer('/image/4.jpg')">
+        </figure>
+        <div class="row justify-content-center">
+          <div id="question_place" class="form-group col-md-6">
+            <h5>8. The linear hyperechoic structure identified as A is …</h5>
+            <input type="text" class="form-control" name="8" id="q1_place">
+            <h5 id="q1_display">No answer selected</h5>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div id="question_place" class="form-group col-md-6">
+            <h5>9. The lobe of the liver identified as B is …</h5>
+            <input type="text" class="form-control" name="9" id="q2_place">
+            <h5 id="q2_display">No answer selected</h5>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div id="question_place" class="form-group col-md-6">
+            <h5>10. The linear hyperechoic structure identified as C is …</h5>
+            <input type="text" class="form-control" name="10" id="q3_place">
+            <h5 id="q3_display">No answer selected</h5>
+          </div>
+        </div>
+      </div>
+      <script>
+        $("#q1_place").val(userAnswer["8"]);
+        $("#q2_place").val(userAnswer["9"]);
+        $("#q3_place").val(userAnswer["10"]);
+        // one time load answer
+        if (osce[$("#q1_place").val()] != undefined)
+          {
+            $("#q1_display").text(osce[$("#q1_place").val()]);
+          } else
+          {
+            $("#q1_display").text("No answer selected");
+          }
+          if (osce[$("#q2_place").val()] != undefined)
+          {
+            $("#q2_display").text(osce[$("#q2_place").val()]);
+          } else
+          {
+            $("#q2_display").text("No answer selected");
+          }
+          if (osce[$("#q3_place").val()] != undefined)
+          {
+            $("#q3_display").text(osce[$("#q3_place").val()]);
+          } else
+          {
+            $("#q3_display").text("No answer selected");
+          }
+
+        $("#q1_place").on("change", function() {
+          if (osce[$(this).val()] != undefined)
+          {
+            $("#q1_display").text(osce[$(this).val()]);
+          } else
+          {
+            $("#q1_display").text("Please select a valid answer");
+          }
+        });
+        $("#q2_place").on("change", function() {
+          if (osce[$(this).val()] != undefined)
+          {
+            $("#q2_display").text(osce[$(this).val()]);
+          } else
+          {
+            $("#q2_display").text("Please select a valid answer");
+          }
+        });
+        $("#q3_place").on("change", function() {
+          if (osce[$(this).val()] != undefined)
+          {
+            $("#q3_display").text(osce[$(this).val()]);
+          } else
+          {
+            $("#q3_display").text("Please select a valid answer");
+          }
+        });
+
+        
+      </script>
+      <h6 style="text-align: center">Click to save your answer</h6>
+      <div style="margin-bottom: 20px" class="text-center">
+        <button id="submitbutton" class="btn btn-secondary">Save</button>
+      </div>
+
+  

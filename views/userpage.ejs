@@ -1,0 +1,174 @@
+
+<%- include('partials/header') %>
+
+<div class="container">
+
+<!-- Header - think of moving this to header ejs -->
+<div class="jumbotron centered" style="padding-bottom: 10px;">
+  <div class="container">
+    <h1 class="display-3">Master of Radiology</h1>
+    <p class="lead">Medex Preparatory Course 2022</p>
+  </div>
+</div>
+
+<%- include('partials/navbar') %>
+
+<div class="container" id="candidate-details">
+  <h2>Candidate Details</h2>
+
+  <div style="margin: 0; padding: 0;">
+    <p>
+      Name: <%= locals.userData.fullname %> 
+      <br>
+      Identification No: <%= locals.userData.username %>
+    </p>
+  </div>
+
+  <div>
+    <h2>Instruction</h2>
+    <p>
+      Please make sure you are using <strong>Chrome</strong> or <strong>Firefox</strong> browser and have good internet connectivity and webcam video.
+    </p>  
+    <hr>
+
+  </div>
+
+ 
+ <% if (!locals.userData.osceCompleted){ %> 
+
+  <div>
+     <h2>Ultrasound Course Test Module</h2>
+      <p>
+        This test book contains <strong>30 open-ended items</strong> to be answered on the answer sheet provided.
+        <strong>Questions 1 through 26 </strong> refers to ultrasound images. The remainder of
+        the test poses questions related to ultrasound. All questions should be answered with the best
+        possible answer referring to the <a target="popup" onclick="window.open('/Answers for Basic Abdominal Ultrasound assessment.pdf','Answer List','width=600,height=400')" href="/Answers for Basic Abdominal Ultrasound assessment.pdf" >attached alphabetic reference list</a> .
+
+      </p>
+
+      <p>
+        When the test begins look at the reference list and become familiar with it before you attempt the
+        first item. Note the synonyms and acronyms for some terms are included.
+      </p>
+      <p>
+        Read the item carefully and determine your best answer. <br>
+        Record the reference number of your answer in the appropriate input field. <br>
+        Click the <strong>Save</strong> button to save your answer. <br>
+        <br>
+        When you have put in all your answer, you may click on the <strong>summary button</strong> to review your answer.
+        To end the module, click on the <strong>Complete Test</strong> button.
+        There is no <strong>Negative Marking Involved</strong>
+      </p>
+
+      <p>
+        If you cannot find your answer in the list, try to think of a similar term. For example, suppose you
+        cannot find “CT SCAN” on the list, look under “Computerised Tomography”.
+      </p>
+      <p>
+        You will have <strong>one and a half minutes</strong> to answer each question referring to the image (Question 1-
+        26) and <strong>6 minutes</strong> to complete the remainder of the exam (Question 27-30). Avoid wasting
+        valuable time browsing through the entire list if you cannot immediately think of the answer.
+        Continue with the best and return to the item later if time permits.
+      </p>
+
+      <p>
+        There is at least one correct answer for every item in the test. There are no trick (e.g., “none of the
+above”) questions.
+      </p>
+
+      <p>
+        Occasionally, there will be more than one correct answer for a test item. If you feel that there may
+be more than one correct answer to an item, choose your best answer using the information
+provided. If you feel that two answers are equally correct, choose either.
+      </p>
+
+      <p>
+        Any term on the list may be used more than once
+      </p>
+
+    <% if (locals.userData.osceStarted){ %> 
+      <a class="btn btn-primary" href="/osce?pages=1" role="button">Continue OSCE test</a>
+    <% } else { %> 
+      <a class="btn btn-primary" href="/osce?pages=1" role="button">Start OSCE test</a>
+  
+    <% } %> 
+  </div>
+  <br>
+  <hr>
+  <% } %> 
+ 
+
+
+  <!-- Status for all modules -->
+  <div>
+    <h2>Status</h2>
+    <p>Please refresh your page if the status is not correctly reflected</p>
+
+
+    <h6>Test Module: 
+      
+    <% if (!locals.userData.osceCompleted) { %>
+    started on <%= new Date(locals.userData.osceStartTime * 1).toLocaleString() %> 
+    <% } else if (locals.userData.osceCompleted) { %> 
+      Completed
+    <% } else { %> 
+    Not started
+    <% } %> 
+
+  </div>
+
+  <hr>
+  <% if(locals.userData.osceCompleted){ %> 
+  <div>
+    <h2>Result</h2>
+    <p>Congratulation, you have completed the test</p>
+    <p>The results will be out in two weeks.</p>
+    <p>In the mean time, please complete the survey to receive you result by clicking <a href="https://forms.gle/y6nfvYd2XmcPJ7mG9">here</a></p>
+    <hr>
+  </div>
+
+
+
+  <p>
+    <strong>Result: </strong><%= parseInt(locals.userData.osceScore) %>% 
+    <% if (parseInt(locals.userData.osceScore) >= 50){  %> 
+      - Pass
+      <% } else if (parseInt(locals.userData.osceScore) < 50) {%> 
+      - Fail
+      <% } else {%>
+      - Not Marked
+      <% } %> 
+  </p> 
+  <% } %> 
+
+</div>
+<br>
+
+</div>
+
+
+
+
+
+
+<!-- 
+<script>
+  $(document).ready(function () {
+    let time = $("#oscetime").html();
+    console.log(time);
+    let inttime = parseInt(time)
+    let date = new Date(inttime);
+    console.log(date);
+    $("#oscedate").html(date);
+  });
+
+  $(document).ready(function () {
+    let time = $("#rapidtime").html();
+    console.log(time);
+    let inttime = parseInt(time)
+    let date = new Date(inttime);
+    console.log(date);
+    $("#rapiddate").html(date);
+  });
+</script> -->
+<%- include('partials/footer') %>

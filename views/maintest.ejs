@@ -1,0 +1,251 @@
+<%- include('partials/header') %> <%- include('partials/navbar') %>
+<%if(locals.userData.osceCompleted === false){ %>
+<link rel="stylesheet" href="/css/clock.css" />
+
+
+<!-- Hidden stuff -->
+
+<p style="display: none" id="jsonObject"><%= locals.osce %></p>
+<p style="display: none" id="userAnswerObjects">
+  <%= JSON.stringify(locals.userData.osceAnswer[0]) %>
+</p>
+<p style="display: none" id="time"><%= locals.userData.osceStartTime %></p>
+
+<script>
+  const jsonObject = $("#jsonObject").text();
+  const osce = JSON.parse(jsonObject);
+  const userAnswerObjects = $("#userAnswerObjects").text();
+  const userAnswer = JSON.parse(userAnswerObjects);
+</script>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm" style="text-align: right;">
+      <h1>Test Module</h1>
+      <p> Please refresh the page if the timer does not load</p>
+      <a target="popup" onclick="window.open('/Answers for Basic Abdominal Ultrasound assessment.pdf','Answer List','width=600,height=400')" href="/Answers for Basic Abdominal Ultrasound assessment.pdf" >Answer reference list</a>
+    </div>
+    <div class="col-sm">
+      <!-- Timer -->
+      <div id="countdown">
+        <div id="tiles" class="color-full"></div>
+        <div class="countdown-label">Time Remaining</div>
+      </div>
+   
+    </div>
+  </div>
+</div>
+<hr />
+<!-- Pagination -->
+<div>
+<nav>
+  <ul class="pagination pagination-lg justify-content-center">
+    <li class="page-item"><a class="page-link" href="/osce?pages=1">1-2</a></li>
+    <li class="page-item"><a class="page-link" href="/osce?pages=3">3-4</a></li>
+    <li class="page-item"><a class="page-link" href="/osce?pages=5">5-7</a></li>
+    <li class="page-item"><a class="page-link" href="/osce?pages=8">8-10</a></li>
+    <li class="page-item"><a class="page-link" href="/osce?pages=11">11-12</a></li>
+    <li class="page-item"><a class="page-link" href="/osce?pages=13">13-14</a></li>
+    <li class="page-item"><a class="page-link" href="/osce?pages=15">15-16</a></li>
+    <li class="page-item"><a class="page-link" href="/osce?pages=17">17</a></li>
+
+    
+
+  </ul>
+</nav>
+<nav>
+  <ul class="pagination pagination-lg justify-content-center">
+    <li class="page-item"><a class="page-link" href="/osce?pages=18">18</a></li>
+    <li class="page-item"><a class="page-link" href="/osce?pages=19">19</a></li>
+    <li class="page-item"><a class="page-link" href="/osce?pages=20">20</a></li>
+    <li class="page-item"><a class="page-link" href="/osce?pages=21">21</a></li>
+    <li class="page-item"><a class="page-link" href="/osce?pages=22">22-24</a></li>
+    <li class="page-item"><a class="page-link" href="/osce?pages=25">25</a></li>
+    <li class="page-item"><a class="page-link" href="/osce?pages=26">26</a></li>
+    <li class="page-item"><a class="page-link" href="/osce?pages=27">27-30</a></li>
+ 
+  </ul>
+</nav>
+</div>
+
+<div style="margin-bottom: 20px" class="text-center">
+  <a class="btn btn-primary" href="/oscesummary" role="button">Summary</a>
+</div>
+
+<hr />
+
+<form action="/update" method="POST" id="question_form">
+  <section>
+    <span id="figures"></span>
+    <input type="hidden" name="username" value="<%= userData.username %>" />
+
+
+
+<% if (pages == 1){ %> 
+<%- include('partials/question/1-2') %> 
+<% } else if (pages == 3) { %> 
+  <%- include('partials/question/3-4') %> 
+<% } else if (pages == 5) { %> 
+  <%- include('partials/question/5-6-7') %> 
+<% } else if (pages == 8) { %> 
+  <%- include('partials/question/8-9-10') %> 
+<% } else if (pages == 11) { %> 
+  <%- include('partials/question/11-12') %> 
+<% } else if (pages == 13) { %> 
+  <%- include('partials/question/13-14') %> 
+<% } else if (pages == 15) { %> 
+  <%- include('partials/question/15-16') %> 
+<% } else if (pages == 17) { %> 
+  <%- include('partials/question/17') %> 
+<% } else if (pages == 18) { %> 
+  <%- include('partials/question/18') %> 
+<% } else if (pages == 19) { %> 
+  <%- include('partials/question/19') %> 
+<% } else if (pages == 20) { %> 
+  <%- include('partials/question/20') %> 
+<% } else if (pages == 21) { %> 
+  <%- include('partials/question/21') %> 
+<% } else if (pages == 22) { %> 
+  <%- include('partials/question/22-23-24') %> 
+<% } else if (pages == 25) { %> 
+  <%- include('partials/question/25') %> 
+<% } else if (pages == 26) { %> 
+  <%- include('partials/question/26') %> 
+<% } else if (pages == 27) { %> 
+  <%- include('partials/question/27-30') %> 
+<% } %>  
+  
+
+
+</section>
+<script>
+  $(document).ready(function () {
+      const btn = document.getElementById('submitbutton');
+
+      btn.addEventListener('click', () => {
+          if (btn.innerHTML === 'Save') {
+              btn.innerHTML = 'Answer Saved';
+              btn.classList.toggle("btn-success");
+              btn.classList.toggle("btn-primary");
+          }
+      });
+  });
+</script>
+</form>
+
+
+
+<script src="/js/oscequiz.js"></script>
+
+<%} %> <% if(locals.userData.osceCompleted === true){ %>
+  <div class="container">
+    <p>
+      <%= userData.fullname %>, you have completed the TEST module. Kindly navigate back to the <a href="/userpage">userpage</a> page.
+    </p>
+  </div>
+
+<%} %>
+
+<div class="modal fade" id="imagePopUp" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="btn-close"
+          data-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div id="imageHolder" class="embed-responsive">
+          <!-- the image will be placed here by js -->
+        </div>
+      </div>
+      <div style="margin-bottom: 20px" class="text-center">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Custom CSS style -->
+<style>
+  .figure {
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .figure-padding {
+    padding: 0px 60px;
+  }
+
+  #quiz-container {
+    padding-top: 0px;
+  }
+
+  figcaption {
+    text-align: center;
+  }
+
+  #squareContainer {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    background-color: black;
+  }
+
+  #canvas_container {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+  }
+
+  #timeholder p {
+    display: inline;
+    font-size: 20px;
+    margin-top: 0px;
+  }
+
+  #imagePopUp .modal-content {
+    background-color: rgba(229, 204, 240, 0.95);
+    border: 0px none transparent;
+  }
+
+  #imagePopUp .modal-header {
+    border: 0px none transparent;
+  }
+
+  .question_no {
+    text-align: center;
+  }
+</style>
+
+<!-- For enlarging viewer -->
+<script>
+  function openImageViewer(url) {
+    // Create the appropriate elements.
+    let image = document.createElement("img");
+    // set the src and classes as well as inner text for caption
+    image.setAttribute("src", url);
+    image.setAttribute("class", "d-block w-100 img-fluid rounded");
+    // append the image and text to the respective holder
+    document.getElementById("imageHolder").appendChild(image);
+    // show the modal
+    $("#imagePopUp").modal("show");
+  }
+
+  $(document).ready(function () {
+    $(".modal").on("hidden.bs.modal", function (e) {
+      $(".modal img").remove();
+      $(".modal p").remove();
+    });
+  });
+  document.addEventListener("contextmenu", (event) => event.preventDefault());
+</script>
+
+<%- include('partials/footer') %>
