@@ -21,7 +21,7 @@
     <p>
       Name: <%= locals.userData.fullname %> 
       <br>
-      Identification No: <%= locals.userData.username %>
+      Registered Email: <%= locals.userData.username %>
     </p>
   </div>
 
@@ -66,10 +66,7 @@
         cannot find “CT SCAN” on the list, look under “Computerised Tomography”.
       </p>
       <p>
-        You will have <strong>one and a half minutes</strong> to answer each question referring to the image (Question 1-
-        26) and <strong>6 minutes</strong> to complete the remainder of the exam (Question 27-30). Avoid wasting
-        valuable time browsing through the entire list if you cannot immediately think of the answer.
-        Continue with the best and return to the item later if time permits.
+        You will have <strong>45 minutes</strong> to answer all <strong>30 questions</strong>.
       </p>
 
       <p>
@@ -124,22 +121,13 @@ provided. If you feel that two answers are equally correct, choose either.
     <h2>Result</h2>
     <p>Congratulation, you have completed the test</p>
     <p>The results will be out in two weeks.</p>
-    <p>In the mean time, please complete the survey to receive you result by clicking <a href="https://forms.gle/y6nfvYd2XmcPJ7mG9">here</a></p>
+    <p>In the mean time, please complete the survey by clicking <a href="https://docs.google.com/forms/d/1NYIwFYW6isqTPwd9G4nO8xh44yQH7ivSLsqakcOnpq0/viewform?usp=sharing_eil_m&ts=623a9da1&edit_requested=true">here</a></p>
     <hr>
   </div>
 
 
 
-  <p>
-    <strong>Result: </strong><%= parseInt(locals.userData.osceScore) %>% 
-    <% if (parseInt(locals.userData.osceScore) >= 50){  %> 
-      - Pass
-      <% } else if (parseInt(locals.userData.osceScore) < 50) {%> 
-      - Fail
-      <% } else {%>
-      - Not Marked
-      <% } %> 
-  </p> 
+
   <% } %> 
 
 </div>
