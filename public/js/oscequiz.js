@@ -1,6 +1,6 @@
 $(window).on('load',function () {
   let startTime = $('#time').text();
-  let minutes_time = 45;
+  let minutes_time = 60;
   var target_date = parseInt(startTime) + minutes_time * 60 * 1000 // set the countdown date
 
   var time_limit = minutes_time * 60 * 1000
